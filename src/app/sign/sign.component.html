@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+<h4>“Let us take you into a deeper experience”</h4>
+
+
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form #signUpForm="ngForm"  (ngSubmit)="onSignup()"  >
+
+      <h1>Create Account</h1>
+
+      {{signUpForm.valid | json}}
+
+
+
+      <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <span>or use your email for registration</span>
+
+      <div class="input-field col s6">
+        <i class="material-icons prefix">email</i>
+        <input required class="browser-default" #email="ngModel" type="email" class="validate" name="email" [(ngModel)]="userSignUpModel.email">
+        <label  data-error="Please verify your email">email</label>
+
+
+      </div>
+
+      <div class="input-field col s6">
+        <i class="material-icons prefix">https</i>
+        <input required type="password" #password="ngModel" class="validate" name="password" [(ngModel)]="userSignUpModel.password">
+        <label >Password</label>
+      </div>
+
+      <div class="input-field col s6">
+        <i class="material-icons prefix">https</i>
+        <input required type="password" #confirmPassword="ngModel"  class="validate" name="confirmPassword"
+               [(ngModel)]="userSignUpModel.confirmPassword">
+        <label >Confirm Password</label>
+      </div>
+
+      <div  >
+        <label  data-error="Please verify role">Je suis</label>
+
+        <select required class="browser-default" (blur)="validateRole(role.value)" (change)="validateRole(role.value)" [class.is-invalid]="roleHasError && role.touched" #role="ngModel"  name="role" id="role" [(ngModel)]="userSignUpModel.role" >
+          <option value="" required disabled selected>Choose option</option>
+          <option *ngFor="let role of rol" [value]="role.id" >{{ role.value }}</option>
+        </select>
+        <small class="text-danger" [class.d-none]="!roleHasError || role.untouched">Please choose a topic</small>
+      </div>
+
+<div *ngIf="userSignUpModel.role === 'ETUDIANT'">
+      <div class="input-field col s6">
+        <input required #niveau="ngModel"  type="text" class="validate" name="niveau" [(ngModel)]="userSignUpModel.niveau">
+        <label  data-error="Please verify your email">Niveau</label>
+      </div>
+      <div class="input-field col s6">
+        <input required #specialite="ngModel"  type="text" class="validate" name="specialite" [(ngModel)]="userSignUpModel.specialite">
+        <label >Specialite</label>
+      </div>
+
+</div>
+
+
+      <div>
+      <button [disabled]="signUpForm.form.invalid" >Sign Up</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="form-container sign-in-container">
+    <form #userForm="ngForm" name="signIn" (ngSubmit)="onSubmit()">
+
+
+      <h1>Sign in</h1>
+      <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+
+      <span>or use your account</span>
+
+
+            <div class="input-field col s6">
+              <i class="material-icons prefix">account_circle</i>
+              <input #username="ngModel" type="text" class="validate" name="username"  [(ngModel)]="userModel.username">
+              <label >First Name</label>
+            </div>
+
+      <div class="input-field col s6">
+        <i class="material-icons prefix">https</i>
+        <input type="password" class="validate" name="password" [(ngModel)]="userModel.password">
+        <label >Password</label>
+      </div>
+
+{{errorMsg}}
+
+      <a href="#">Forgot your password?</a>
+      <button>Sign In</button>
+    </form>
+  </div>
+
+
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please login with your personal info</p>
+        <button  class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Hello, Friend!</h1>
+        <p>Enter your personal details and start journey with us</p>
+        <button type="submit" class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

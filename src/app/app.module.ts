@@ -6,16 +6,15 @@ import {FormsModule, NgForm, ReactiveFormsModule} from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
-import { SignComponent } from './sign/sign.component';
 import { SignService } from './sign.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MaterialModule} from "./material/material.module";
-import { EtudiantComponent } from './etudiant/etudiant.component';
 import { EnseignantComponent } from './enseignant/enseignant.component';
-import { TestComponent } from './test/test.component';
 import {MatSelectModule} from '@angular/material/select';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeComponent } from './home/home.component';
+import {MaterialModule} from './material/material.module';
 
 
 
@@ -23,13 +22,13 @@ import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
-    SignComponent,
     routingComponents,
-    EtudiantComponent,
     EnseignantComponent,
-    TestComponent
+    PageNotFoundComponent,
+    HomeComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

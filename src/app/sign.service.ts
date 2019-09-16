@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import {HttpClientModule, HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse} from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpParams
+} from '@angular/common/http';
 import { User } from './user';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 
 
 
 import {catchError, map} from 'rxjs/operators';
-import {SignupUser} from "./signup-user";
-import {TokenStorageService} from "./token-storage-service";
-import {decode} from "punycode";
+import {SignupUser} from './signup-user';
+import {TokenStorageService} from './token-storage-service';
+import {CurrentUser} from './current-user';
 
 
 
@@ -16,24 +22,32 @@ import {decode} from "punycode";
 @Injectable()
 export class SignService {
   private _login = 'http://localhost:8080/login';
-  private _signup = 'http://localhost:8080/register';
+  private _signup = 'http://localhost:8080/signup';
+  private _socialInfo = 'http://localhost:8080/user/me/';
+  private _validateRole = 'http://localhost:8080/validateRole';
+
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders();
+  private params = new HttpParams();
+
 
   roles: string[] = [];
 
 
 
 
-  constructor(private http: HttpClient,private tokenStorage: TokenStorageService) {
+
+  constructor(private http: HttpClient,
+              private tokenStorage: TokenStorageService) {
+
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
 
   }
 
-  signup( user: SignupUser){
+  signup( user: SignupUser) {
     return this.http.post<any>(this._signup, user);
 
 }
@@ -48,15 +62,15 @@ export class SignService {
     return this.http.post<HttpResponse<Object>>(this._login, {username, password}, {observe: 'response'})
         .pipe( catchError(error => this.handleError(error)),map(
         userData => {
-          let token = userData.headers.get('authorization');
-          let jwtData = token.split('.')[1];
-          let decodedJwtJsonData = window.atob(jwtData);
-          let decodedJwtData = JSON.parse(decodedJwtJsonData);
+          const token = userData.headers.get('authorization');
+          const jwtData = token.split('.')[1];
+          const decodedJwtJsonData = window.atob(jwtData);
+          const decodedJwtData = JSON.parse(decodedJwtJsonData);
 
           this.roles = decodedJwtData.roles;
 
             this.tokenStorage.saveToken(token);
-          this.tokenStorage.saveAuthorities( this.roles);
+          this.tokenStorage.saveAuthorities( this.tokenStorage.getAuthoritiesFromToken(token));
           return userData;
         }));
   }
@@ -75,5 +89,17 @@ export class SignService {
     return throwError(error);
   };
 
+
+
+
+  getInfo(id: string): Observable<CurrentUser> {
+    return this.http.get<CurrentUser>(this._socialInfo + id);
+  }
+
+  validateRole(user: SignupUser){
+    console.log('done');
+
+    return  this.http.post<any>(this._validateRole, user);
+  }
 
 }

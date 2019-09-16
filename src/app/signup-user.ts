@@ -1,5 +1,6 @@
 export class SignupUser {
   constructor(
+    public id: string,
     public email: string,
     public password: string,
     public confirmPassword: string,
@@ -9,5 +10,5 @@ export class SignupUser {
 
 
 
-  ){}
+  ) {}
 }

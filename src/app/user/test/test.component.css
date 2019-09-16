@@ -1,0 +1,43 @@
+
+body {
+
+
+
+}
+
+
+mat-sidenav-container{
+  height: 100%;
+}
+
+mat-sidenav , mat-sidenav-container {
+  padding: 16px;
+}
+
+img {
+
+
+}
+
+mat-sidenav {
+  width: 400px;
+
+}
+
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+.flow-text{
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 25px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none solid rgb(68, 68, 68);
+  font-style: italic;
+  font-variant: small-caps;
+  text-transform: capitalize;
+}

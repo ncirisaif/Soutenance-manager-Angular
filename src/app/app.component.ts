@@ -19,8 +19,9 @@ export class AppComponent implements OnInit{
   ngOnInit() {
 
 
-    if (this.tokenStorage.getToken()) {
-      this.roles = this.tokenStorage.getAuthorities();
+/*
+   if (this.tokenStorage.getToken()) {
+      this.roles = this.tokenStorage.getAuthorities()
       this.roles.every(role => {
         console.log(role);
         if (role === 'ROLE_ENSEIGNANT') {
@@ -38,12 +39,9 @@ export class AppComponent implements OnInit{
         return true;
       });
     }
+*/
 
 
-  }
-  logout() {
-    window.sessionStorage.clear();
-    window.location.reload();
   }
 
 }

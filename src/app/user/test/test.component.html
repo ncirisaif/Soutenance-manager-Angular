@@ -1,0 +1,40 @@
+
+
+<mat-sidenav-container>
+  <mat-sidenav  #sidenav mode="push" opened>
+
+    <img class="responsive-img" src="{{currentUser.imageUrl}}">
+    <p class="flow-text">{{currentUser.email}}</p>
+    <p class="flow-text">{{currentUser.name}}</p>
+
+
+
+    <div class="collection">
+      <a href="#" class="collection-item">Alvin</a>
+      <a href="#" class="collection-item active">Alvin</a>
+      <a href="#" class="collection-item">Alvin</a>
+      <a href="#" class="collection-item">Alvin</a>
+    </div>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+
+    <nav>
+      <div class="nav-wrapper">
+
+        <a mat-button routerLink="." (click)="sidenav.toggle()">Profile</a>
+
+
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a >Sass</a></li>
+          <li><a >Components</a></li>
+          <li><a (click)="logout()" href="/user/login">LOGOUT</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

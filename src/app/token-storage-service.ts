@@ -29,13 +29,30 @@ export class TokenStorageService {
     window.sessionStorage.setItem(USERNAME_KEY, username);
   }
 
+
   public getUsername(): string {
     return sessionStorage.getItem(USERNAME_KEY);
   }
 
-  public saveAuthorities(authorities: string[]) {
+  public  getId(): string {
+    if (sessionStorage.getItem(TOKEN_KEY)) {
+      let token = sessionStorage.getItem(TOKEN_KEY);
+      let jwtData = token.split('.')[1];
+      let decodedJwtJsonData = window.atob(jwtData);
+      let decodedJwtData = JSON.parse(decodedJwtJsonData);
+      let id = decodedJwtData.sub;
+      return id;
+    }
+  }
+
+
+
+
+  public saveAuthorities(roles: string[]) {
+
+
     window.sessionStorage.removeItem(AUTHORITIES_KEY);
-    window.sessionStorage.setItem(AUTHORITIES_KEY, JSON.stringify(authorities));
+    window.sessionStorage.setItem(AUTHORITIES_KEY, JSON.stringify(roles));
   }
 
   public getAuthorities(): string[] {
@@ -49,4 +66,16 @@ export class TokenStorageService {
 
     return this.roles;
   }
+
+  public getAuthoritiesFromToken(token: string): string[] {
+    let jwtData = token.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    this.roles = decodedJwtData.roles;
+
+
+    return this.roles;
+  }
+
 }

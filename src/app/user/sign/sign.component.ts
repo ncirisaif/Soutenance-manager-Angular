@@ -1,12 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroupDirective, FormsModule, NgForm, Validators} from '@angular/forms';
-import { User } from '../user';
-import { SignService } from '../sign.service';
+import {Component, OnInit} from '@angular/core';
+import { User } from '../../user';
+import { SignService } from '../../sign.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {SignupUser} from "../signup-user";
-import {TokenStorageService} from "../token-storage-service";
-import {validate} from "codelyzer/walkerFactory/walkerFn";
-import {HttpErrorResponse} from "@angular/common/http";
+import {SignupUser} from '../../signup-user';
+import {TokenStorageService} from '../../token-storage-service';
 
 
 declare var $: any;
@@ -19,17 +16,15 @@ declare var $: any;
 })
 export class SignComponent implements OnInit {
   rol: any = [
-    {"id":"ETUDIANT","value":"ETUDIANT"},
-    {"id":"ENSEIGNANT","value":"ENSEIGNANT"}
+    {id: 'ETUDIANT', value: 'ETUDIANT'},
+    {id: 'ENSEIGNANT', value: 'ENSEIGNANT'}
     ];
 
-  userSignUpModel = new SignupUser('','','','','','');
-  userModel = new User( '','', '','','','','','','','');
-  @Output() public show = true;
-  @Output() public chilEvent = new EventEmitter();
+  userSignUpModel = new SignupUser('', '', '', '', '', '' , '');
+  userModel = new User( '', '', '', '', '', '', '', '', '', '');
 
   roleHasError = true;
-  errorMsg='';
+  errorMsg = '';
 
 
 
@@ -50,6 +45,8 @@ export class SignComponent implements OnInit {
     $(document).ready(function() {
       $('select').material_select();
     });
+
+
 
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
@@ -77,30 +74,30 @@ export class SignComponent implements OnInit {
 
 
     if (this.userModel.username && this.userModel.password) {
-      this.signIn(this.userModel.username,this.userModel.password);
+      this.signIn(this.userModel.username, this.userModel.password);
     }
 
 
-    $("input[name='username']").focus().select();
+    $('input[name=\'username\']').focus().select();
 
 
 
 
   }
 
-  onSignup(){
+  onSignup() {
     this.signService.signup(this.userSignUpModel)
       .subscribe(
         data => console.log('success dzfgsdfg!', data),
         error =>  console.error('error !', error)
-      )
+      );
 
 
-    this.signIn(this.userSignUpModel.email,this.userSignUpModel.password);
+    this.signIn(this.userSignUpModel.email, this.userSignUpModel.password);
 
   }
 
-  signIn(username: string , password: string){
+  signIn(username: string , password: string) {
     this.signService.login(username, password)
       .subscribe(
         (responce) => {
@@ -109,20 +106,20 @@ export class SignComponent implements OnInit {
             console.log(responce.headers.get('authorization'));
 
 
-            let isAdmin = this.tokenStorage.getAuthorities().forEach(role => {
+            const isAdmin = this.tokenStorage.getAuthorities().forEach(role => {
               if (role === 'ROLE_ENSEIGNANT') {
                 this.router.navigateByUrl('/enseignant');
                 return false;
-              }
-              else if (role === 'ROLE_ETUDIANT'){
-                this.router.navigateByUrl('/etudiant');
+              } else if (role === 'ROLE_ETUDIANT') {
+            //    this.router.navigateByUrl('/etudiant');
               }
 
-            });}
+            }); }
         },
         error =>    this.errorMsg = error.statusText  );
-    ;
+    
   }
+
 
 
 
